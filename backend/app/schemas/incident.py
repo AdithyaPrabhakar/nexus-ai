@@ -32,4 +32,4 @@ class IncidentResponse(BaseModel):
     updated_at: datetime
     resolved_at: datetime | None
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)  
