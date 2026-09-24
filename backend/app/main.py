@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.incidents import router as incident_router
-
-
+from app.routers.users import router as user_router
+from app.routers.auth import router as auth_router
 app = FastAPI(
     title="NexusAI API",
     description="Enterprise IT Incident Intelligence Platform",
@@ -25,7 +25,8 @@ app.add_middleware(
 
 # Register API routers
 app.include_router(incident_router)
-
+app.include_router(user_router)
+app.include_router(auth_router)
 
 @app.get("/")
 def root():

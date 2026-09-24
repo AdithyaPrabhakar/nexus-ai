@@ -2,12 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.core.security import get_current_user
+from app.models.user import User
+
 from app.models.incident import Incident
 from app.schemas.incident import (
     IncidentCreate,
     IncidentResponse,
     IncidentUpdate,
 )
+
 
 
 router = APIRouter(
@@ -21,14 +25,15 @@ router = APIRouter(
 )
 def create_incident(
     incident: IncidentCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     new_incident = Incident(
         title=incident.title,
         description=incident.description,
         category=incident.category,
         priority=incident.priority,
-        created_by=1
+        created_by=current_user.id
     )
 
     db.add(new_incident)
